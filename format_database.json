@@ -8,7 +8,8 @@
         "supports_alpha": false,
         "supports_hdr": false,
         "is_lossless": false,
-        "recommended_target": "jpeg"
+        "recommended_target": "jpeg",
+        "supports_exif": true
     },
     {
         "extension": "jpeg",
@@ -19,7 +20,8 @@
         "supports_alpha": false,
         "supports_hdr": false,
         "is_lossless": false,
-        "recommended_target": "jpeg"
+        "recommended_target": "jpeg",
+        "supports_exif": true
     },
     {
         "extension": "jpe",
@@ -30,7 +32,8 @@
         "supports_alpha": false,
         "supports_hdr": false,
         "is_lossless": false,
-        "recommended_target": "jpeg"
+        "recommended_target": "jpeg",
+        "supports_exif": true
     },
     {
         "extension": "jfif",
@@ -41,7 +44,8 @@
         "supports_alpha": false,
         "supports_hdr": false,
         "is_lossless": false,
-        "recommended_target": "jpeg"
+        "recommended_target": "jpeg",
+        "supports_exif": true
     },
     {
         "extension": "png",
@@ -52,7 +56,8 @@
         "supports_alpha": true,
         "supports_hdr": false,
         "is_lossless": true,
-        "recommended_target": "png"
+        "recommended_target": "png",
+        "supports_exif": true
     },
     {
         "extension": "apng",
@@ -63,7 +68,8 @@
         "supports_alpha": true,
         "supports_hdr": false,
         "is_lossless": true,
-        "recommended_target": "webp"
+        "recommended_target": "webp",
+        "supports_exif": false
     },
     {
         "extension": "gif",
@@ -74,7 +80,8 @@
         "supports_alpha": true,
         "supports_hdr": false,
         "is_lossless": true,
-        "recommended_target": "webp"
+        "recommended_target": "webp",
+        "supports_exif": false
     },
     {
         "extension": "bmp",
@@ -85,7 +92,8 @@
         "supports_alpha": false,
         "supports_hdr": false,
         "is_lossless": true,
-        "recommended_target": "png"
+        "recommended_target": "png",
+        "supports_exif": false
     },
     {
         "extension": "webp",
@@ -96,7 +104,8 @@
         "supports_alpha": true,
         "supports_hdr": false,
         "is_lossless": true,
-        "recommended_target": "webp"
+        "recommended_target": "webp",
+        "supports_exif": true
     },
     {
         "extension": "avif",
@@ -107,7 +116,8 @@
         "supports_alpha": true,
         "supports_hdr": true,
         "is_lossless": true,
-        "recommended_target": "webp"
+        "recommended_target": "webp",
+        "supports_exif": true
     },
     {
         "extension": "heif",
@@ -118,7 +128,8 @@
         "supports_alpha": true,
         "supports_hdr": true,
         "is_lossless": false,
-        "recommended_target": "webp"
+        "recommended_target": "webp",
+        "supports_exif": true
     },
     {
         "extension": "heic",
@@ -129,7 +140,8 @@
         "supports_alpha": true,
         "supports_hdr": true,
         "is_lossless": false,
-        "recommended_target": "webp"
+        "recommended_target": "webp",
+        "supports_exif": true
     },
     {
         "extension": "tif",
@@ -140,7 +152,8 @@
         "supports_alpha": true,
         "supports_hdr": true,
         "is_lossless": true,
-        "recommended_target": "tiff"
+        "recommended_target": "tiff",
+        "supports_exif": true
     },
     {
         "extension": "tiff",
@@ -151,7 +164,8 @@
         "supports_alpha": true,
         "supports_hdr": true,
         "is_lossless": true,
-        "recommended_target": "tiff"
+        "recommended_target": "tiff",
+        "supports_exif": true
     },
     {
         "extension": "ico",
@@ -162,7 +176,8 @@
         "supports_alpha": true,
         "supports_hdr": false,
         "is_lossless": true,
-        "recommended_target": "png"
+        "recommended_target": "png",
+        "supports_exif": false
     },
     {
         "extension": "cur",
@@ -173,7 +188,8 @@
         "supports_alpha": true,
         "supports_hdr": false,
         "is_lossless": true,
-        "recommended_target": "png"
+        "recommended_target": "png",
+        "supports_exif": false
     },
     {
         "extension": "icns",
@@ -184,7 +200,8 @@
         "supports_alpha": true,
         "supports_hdr": false,
         "is_lossless": true,
-        "recommended_target": "png"
+        "recommended_target": "png",
+        "supports_exif": false
     },
     {
         "extension": "svg",
@@ -195,7 +212,8 @@
         "supports_alpha": true,
         "supports_hdr": false,
         "is_lossless": true,
-        "recommended_target": "png"
+        "recommended_target": "png",
+        "supports_exif": false
     },
     {
         "extension": "svgz",
@@ -206,7 +224,8 @@
         "supports_alpha": true,
         "supports_hdr": false,
         "is_lossless": true,
-        "recommended_target": "png"
+        "recommended_target": "png",
+        "supports_exif": false
     },
     {
         "extension": "pdf",
@@ -217,7 +236,8 @@
         "supports_alpha": true,
         "supports_hdr": false,
         "is_lossless": true,
-        "recommended_target": "pdf"
+        "recommended_target": "pdf",
+        "supports_exif": false
     },
     {
         "extension": "crw",
@@ -228,7 +248,8 @@
         "supports_alpha": false,
         "supports_hdr": true,
         "is_lossless": true,
-        "recommended_target": "jpg"
+        "recommended_target": "jpg",
+        "supports_exif": true
     },
     {
         "extension": "cr2",
@@ -239,7 +260,8 @@
         "supports_alpha": false,
         "supports_hdr": true,
         "is_lossless": true,
-        "recommended_target": "jpg"
+        "recommended_target": "jpg",
+        "supports_exif": true
     },
     {
         "extension": "cr3",
@@ -250,7 +272,8 @@
         "supports_alpha": false,
         "supports_hdr": true,
         "is_lossless": true,
-        "recommended_target": "jpg"
+        "recommended_target": "jpg",
+        "supports_exif": true
     },
     {
         "extension": "nef",
@@ -261,7 +284,8 @@
         "supports_alpha": false,
         "supports_hdr": true,
         "is_lossless": true,
-        "recommended_target": "jpg"
+        "recommended_target": "jpg",
+        "supports_exif": true
     },
     {
         "extension": "nrw",
@@ -272,7 +296,8 @@
         "supports_alpha": false,
         "supports_hdr": true,
         "is_lossless": true,
-        "recommended_target": "jpg"
+        "recommended_target": "jpg",
+        "supports_exif": true
     },
     {
         "extension": "arw",
@@ -283,7 +308,8 @@
         "supports_alpha": false,
         "supports_hdr": true,
         "is_lossless": true,
-        "recommended_target": "jpg"
+        "recommended_target": "jpg",
+        "supports_exif": true
     },
     {
         "extension": "sr2",
@@ -294,7 +320,8 @@
         "supports_alpha": false,
         "supports_hdr": true,
         "is_lossless": true,
-        "recommended_target": "jpg"
+        "recommended_target": "jpg",
+        "supports_exif": true
     },
     {
         "extension": "srf",
@@ -305,7 +332,8 @@
         "supports_alpha": false,
         "supports_hdr": true,
         "is_lossless": true,
-        "recommended_target": "jpg"
+        "recommended_target": "jpg",
+        "supports_exif": true
     },
     {
         "extension": "raf",
@@ -316,7 +344,8 @@
         "supports_alpha": false,
         "supports_hdr": true,
         "is_lossless": true,
-        "recommended_target": "jpg"
+        "recommended_target": "jpg",
+        "supports_exif": true
     },
     {
         "extension": "rw2",
@@ -327,7 +356,8 @@
         "supports_alpha": false,
         "supports_hdr": true,
         "is_lossless": true,
-        "recommended_target": "jpg"
+        "recommended_target": "jpg",
+        "supports_exif": true
     },
     {
         "extension": "orf",
@@ -338,7 +368,8 @@
         "supports_alpha": false,
         "supports_hdr": true,
         "is_lossless": true,
-        "recommended_target": "jpg"
+        "recommended_target": "jpg",
+        "supports_exif": true
     },
     {
         "extension": "pef",
@@ -349,7 +380,8 @@
         "supports_alpha": false,
         "supports_hdr": true,
         "is_lossless": true,
-        "recommended_target": "jpg"
+        "recommended_target": "jpg",
+        "supports_exif": true
     },
     {
         "extension": "rwl",
@@ -360,7 +392,8 @@
         "supports_alpha": false,
         "supports_hdr": true,
         "is_lossless": true,
-        "recommended_target": "jpg"
+        "recommended_target": "jpg",
+        "supports_exif": true
     },
     {
         "extension": "x3f",
@@ -371,7 +404,8 @@
         "supports_alpha": false,
         "supports_hdr": true,
         "is_lossless": true,
-        "recommended_target": "jpg"
+        "recommended_target": "jpg",
+        "supports_exif": true
     },
     {
         "extension": "3fr",
@@ -382,7 +416,8 @@
         "supports_alpha": false,
         "supports_hdr": true,
         "is_lossless": true,
-        "recommended_target": "jpg"
+        "recommended_target": "jpg",
+        "supports_exif": true
     },
     {
         "extension": "fff",
@@ -393,7 +428,8 @@
         "supports_alpha": false,
         "supports_hdr": true,
         "is_lossless": true,
-        "recommended_target": "jpg"
+        "recommended_target": "jpg",
+        "supports_exif": true
     },
     {
         "extension": "dcr",
@@ -404,7 +440,8 @@
         "supports_alpha": false,
         "supports_hdr": true,
         "is_lossless": true,
-        "recommended_target": "jpg"
+        "recommended_target": "jpg",
+        "supports_exif": true
     },
     {
         "extension": "kdc",
@@ -415,7 +452,8 @@
         "supports_alpha": false,
         "supports_hdr": true,
         "is_lossless": true,
-        "recommended_target": "jpg"
+        "recommended_target": "jpg",
+        "supports_exif": true
     },
     {
         "extension": "k25",
@@ -426,7 +464,8 @@
         "supports_alpha": false,
         "supports_hdr": true,
         "is_lossless": true,
-        "recommended_target": "jpg"
+        "recommended_target": "jpg",
+        "supports_exif": true
     },
     {
         "extension": "erf",
@@ -437,7 +476,8 @@
         "supports_alpha": false,
         "supports_hdr": true,
         "is_lossless": true,
-        "recommended_target": "jpg"
+        "recommended_target": "jpg",
+        "supports_exif": true
     },
     {
         "extension": "srw",
@@ -448,7 +488,8 @@
         "supports_alpha": false,
         "supports_hdr": true,
         "is_lossless": true,
-        "recommended_target": "jpg"
+        "recommended_target": "jpg",
+        "supports_exif": true
     },
     {
         "extension": "mrw",
@@ -459,7 +500,8 @@
         "supports_alpha": false,
         "supports_hdr": true,
         "is_lossless": true,
-        "recommended_target": "jpg"
+        "recommended_target": "jpg",
+        "supports_exif": true
     },
     {
         "extension": "mef",
@@ -470,7 +512,8 @@
         "supports_alpha": false,
         "supports_hdr": true,
         "is_lossless": true,
-        "recommended_target": "jpg"
+        "recommended_target": "jpg",
+        "supports_exif": true
     },
     {
         "extension": "dng",
@@ -481,7 +524,8 @@
         "supports_alpha": false,
         "supports_hdr": true,
         "is_lossless": true,
-        "recommended_target": "jpg"
+        "recommended_target": "jpg",
+        "supports_exif": true
     },
     {
         "extension": "psd",
@@ -492,7 +536,8 @@
         "supports_alpha": true,
         "supports_hdr": false,
         "is_lossless": true,
-        "recommended_target": "png"
+        "recommended_target": "png",
+        "supports_exif": true
     },
     {
         "extension": "xcf",
@@ -503,7 +548,8 @@
         "supports_alpha": true,
         "supports_hdr": false,
         "is_lossless": true,
-        "recommended_target": "png"
+        "recommended_target": "png",
+        "supports_exif": false
     },
     {
         "extension": "hdr",
@@ -514,7 +560,8 @@
         "supports_alpha": false,
         "supports_hdr": true,
         "is_lossless": true,
-        "recommended_target": "exr"
+        "recommended_target": "exr",
+        "supports_exif": false
     },
     {
         "extension": "exr",
@@ -525,7 +572,8 @@
         "supports_alpha": true,
         "supports_hdr": true,
         "is_lossless": true,
-        "recommended_target": "exr"
+        "recommended_target": "exr",
+        "supports_exif": false
     },
     {
         "extension": "dds",
@@ -536,7 +584,8 @@
         "supports_alpha": true,
         "supports_hdr": false,
         "is_lossless": false,
-        "recommended_target": "png"
+        "recommended_target": "png",
+        "supports_exif": false
     },
     {
         "extension": "tga",
@@ -547,7 +596,8 @@
         "supports_alpha": true,
         "supports_hdr": false,
         "is_lossless": true,
-        "recommended_target": "png"
+        "recommended_target": "png",
+        "supports_exif": false
     },
     {
         "extension": "ppm",
@@ -558,7 +608,8 @@
         "supports_alpha": false,
         "supports_hdr": false,
         "is_lossless": true,
-        "recommended_target": "png"
+        "recommended_target": "png",
+        "supports_exif": false
     },
     {
         "extension": "pgm",
@@ -569,7 +620,8 @@
         "supports_alpha": false,
         "supports_hdr": false,
         "is_lossless": true,
-        "recommended_target": "png"
+        "recommended_target": "png",
+        "supports_exif": false
     },
     {
         "extension": "pbm",
@@ -580,7 +632,8 @@
         "supports_alpha": false,
         "supports_hdr": false,
         "is_lossless": true,
-        "recommended_target": "png"
+        "recommended_target": "png",
+        "supports_exif": false
     },
     {
         "extension": "dcm",
@@ -591,7 +644,8 @@
         "supports_alpha": false,
         "supports_hdr": true,
         "is_lossless": true,
-        "recommended_target": "jpg"
+        "recommended_target": "jpg",
+        "supports_exif": false
     },
     {
         "extension": "fits",
@@ -602,7 +656,8 @@
         "supports_alpha": false,
         "supports_hdr": true,
         "is_lossless": true,
-        "recommended_target": "jpg"
+        "recommended_target": "jpg",
+        "supports_exif": false
     },
     {
         "extension": "geotiff",
@@ -613,7 +668,8 @@
         "supports_alpha": true,
         "supports_hdr": false,
         "is_lossless": true,
-        "recommended_target": "tiff"
+        "recommended_target": "tiff",
+        "supports_exif": false
     },
     {
         "extension": "pcx",
@@ -624,6 +680,19 @@
         "supports_alpha": false,
         "supports_hdr": false,
         "is_lossless": true,
-        "recommended_target": "png"
+        "recommended_target": "png",
+        "supports_exif": false
+    },
+    {
+        "extension": "exif",
+        "category": "Metadata",
+        "can_read": true,
+        "can_write": true,
+        "supports_animation": false,
+        "supports_alpha": false,
+        "supports_hdr": false,
+        "is_lossless": true,
+        "recommended_target": "txt",
+        "supports_exif": true
     }
 ]
