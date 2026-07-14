@@ -1,7 +1,8 @@
 import tkinter as tk
 from tkinter import ttk, filedialog, messagebox
 import os
-from PIL import Image
+import json
+import shutil
 
 class ImageConverterApp:
     def __init__(self, root):
@@ -14,7 +15,51 @@ class ImageConverterApp:
         self.target_format = tk.StringVar(value="png")
         self.output_dir = tk.StringVar()
 
+        self.imagemagick_cmd = self.check_imagemagick()
+
+        self.load_format_db()
         self.create_widgets()
+
+        if not self.imagemagick_cmd:
+            self.root.after(100, self.warn_missing_dependency)
+
+    def warn_missing_dependency(self):
+        messagebox.showerror(
+            "Missing Dependency",
+            "ImageMagick is not installed or not in PATH.\n\n"
+            "This application requires ImageMagick to convert images. "
+            "Please install it and restart the application."
+        )
+        self.btn_convert.config(state="disabled")
+
+    def check_imagemagick(self):
+        # Prefer ImageMagick v7 'magick' to avoid Windows 'convert.exe' collision
+        if shutil.which("magick"):
+            return "magick"
+        if shutil.which("convert"):
+            return "convert"
+        return None
+
+    def load_format_db(self):
+        self.format_db = []
+        self.valid_input_extensions = set()
+        self.valid_output_extensions = []
+        try:
+            with open("format_database.json", "r") as f:
+                self.format_db = json.load(f)
+                for fmt in self.format_db:
+                    ext = f".{fmt['extension'].lower()}"
+                    if fmt['can_read']:
+                        self.valid_input_extensions.add(ext)
+                    if fmt['can_write']:
+                        self.valid_output_extensions.append(fmt['extension'])
+        except Exception as e:
+            print(f"Error loading format database: {e}")
+            # Fallbacks
+            self.valid_input_extensions = {'.png', '.jpg', '.jpeg', '.webp', '.gif', '.bmp', '.tiff'}
+            self.valid_output_extensions = ['png', 'jpg', 'jpeg', 'webp', 'gif', 'bmp', 'tiff']
+
+        self.valid_output_extensions = sorted(list(set(self.valid_output_extensions)))
 
     def create_widgets(self):
         # Input Section
@@ -46,9 +91,8 @@ class ImageConverterApp:
 
         ttk.Label(format_frame, text="Format:").pack(side="left", padx=5, pady=5)
 
-        # Adding a combobox with some common formats, but allow custom entry
         self.cb_format = ttk.Combobox(format_frame, textvariable=self.target_format,
-                                      values=["png", "jpg", "jpeg", "webp", "gif", "bmp", "tiff", "ico"])
+                                      values=self.valid_output_extensions, width=10)
         self.cb_format.pack(side="left", padx=5, pady=5)
 
         # Convert Section
@@ -80,12 +124,11 @@ class ImageConverterApp:
         if directory:
             # Gather all files in the directory
             self.input_paths = []
-            valid_extensions = {'.png', '.jpg', '.jpeg', '.webp', '.gif', '.bmp', '.tiff', '.ico'}
             for filename in os.listdir(directory):
                 filepath = os.path.join(directory, filename)
                 if os.path.isfile(filepath):
                     _, ext = os.path.splitext(filename)
-                    if ext.lower() in valid_extensions:
+                    if ext.lower() in self.valid_input_extensions:
                         self.input_paths.append(filepath)
 
             if self.input_paths:
@@ -131,30 +174,39 @@ class ImageConverterApp:
 
         # Run conversion in a separate thread to keep UI responsive
         import threading
+        import subprocess
+
+        cmd_base = self.imagemagick_cmd
+        if not cmd_base:
+            messagebox.showerror("Error", "ImageMagick not found.")
+            return
+
         def conversion_thread():
             success_count = 0
             fail_count = 0
 
             for idx, path in enumerate(self.input_paths):
                 try:
-                    # Open image
-                    img = Image.open(path)
-
-                    # Handling modes for formats that don't support alpha (like JPEG)
-                    if target_ext in ['jpg', 'jpeg'] and img.mode in ('RGBA', 'LA', 'P'):
-                        img = img.convert('RGB')
-
                     filename = os.path.basename(path)
                     name, _ = os.path.splitext(filename)
 
                     # Construct output path
                     out_path = os.path.join(out_dir, f"{name}.{target_ext}")
 
-                    # Save
-                    img.save(out_path)
-                    success_count += 1
+                    cmd = [cmd_base, path]
+                    if target_ext in ['jpg', 'jpeg']:
+                        cmd.extend(["-background", "white", "-flatten"])
+                    cmd.append(out_path)
+
+                    result = subprocess.run(cmd, capture_output=True, text=True)
+
+                    if result.returncode == 0:
+                        success_count += 1
+                    else:
+                        print(f"Failed to convert {path}: {result.stderr}")
+                        fail_count += 1
                 except Exception as e:
-                    print(f"Failed to convert {path}: {e}")
+                    print(f"Exception converting {path}: {e}")
                     fail_count += 1
 
                 # Update status safely from thread
