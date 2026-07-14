@@ -3,47 +3,26 @@
 **Description:**
 A powerful, universal desktop application for converting between 50+ image and metadata formats (including RAW, HDR, Web, and GIS formats). Built with Python and Tkinter, and powered by ImageMagick to provide the broadest possible format support while maintaining a highly responsive UI during batch operations.
 
-**Tags (Topics):**
-`python`, `tkinter`, `imagemagick`, `image-converter`, `batch-processing`, `exif`, `heic`, `raw-converter`, `utility`
-
 ## Features
-
-- **Massive Format Support:** Converts between standard formats (JPG, PNG, WEBP), Camera RAW (CR2, NEF, ARW), Apple formats (HEIC, HEIF), HDR (EXR), and many more.
-- **Batch Processing:** Select a single file, multiple files, or an entire directory for conversion.
-- **JSON Format Database:** Uses a dynamic `format_database.json` to manage capabilities (read, write, animation, alpha support, EXIF support), making it trivial to add or update supported extensions.
-- **Responsive GUI:** Image processing is offloaded to a background thread, preventing the application window from freezing during heavy batch loads.
-- **EXIF & Metadata Handling:** Supports explicitly extracting and embedding EXIF metadata profiles.
+- **Massive Format Support:** Converts standard formats (JPG, PNG), Camera RAW, Apple HEIC, HDR, Medical imaging, and EXIF profiles.
+- **Batch Processing:** Seamlessly convert hundreds of images at once.
+- **Dynamic JSON Database:** Extension capabilities are driven entirely by a configurable `format_database.json`.
+- **Responsive UI:** Built with Python/Tkinter, featuring background threading.
 
 ## Installation
-
-### 1. Install ImageMagick (System Dependency)
-This application relies on ImageMagick as the core conversion engine.
+You need Python 3 and ImageMagick installed on your system.
 
 **Ubuntu/Debian:**
 ```bash
-sudo apt-get update
-sudo apt-get install imagemagick
+sudo apt-get update && sudo apt-get install imagemagick
 ```
 
-**macOS (via Homebrew):**
+**macOS:**
 ```bash
 brew install imagemagick
 ```
 
-**Windows:**
-Download the installer from the [ImageMagick Official Website](https://imagemagick.org/script/download.php#windows). Make sure to check the box to "Add to PATH" during installation.
-
-### 2. Run the Application
-You just need Python 3 installed. Standard libraries are used for the UI.
-
+## Usage
 ```bash
 python image_converter.py
 ```
-
-## Usage
-
-1. Launch the application.
-2. Under "Input", click **Select Files** to pick specific images, or **Select Directory** to automatically load all supported image formats from a folder.
-3. Under "Output Directory", choose where the converted files should be saved.
-4. Under "Target Format", select your desired output extension (e.g., `png`, `jpg`, `pdf`, `webp`).
-5. Click **Convert Images**. The status text will update dynamically as the background thread processes the queue.
