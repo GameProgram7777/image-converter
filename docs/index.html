@@ -73,6 +73,9 @@
             background-color: rgb(220, 38, 38);
         }
     </style>
+    <!-- Load JSZip for batch archiving -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+
     <!-- Load ESM from esm.sh to automatically handle CJS conversion -->
     <script type="importmap">
     {
@@ -256,12 +259,14 @@
 
             const files = [...selectedFiles];
             const targetExt = targetFormatSelect.value;
+            const isBatch = files.length > 1;
 
             convertBtn.disabled = true;
             downloadsContainer.innerHTML = ''; // clear previous links
 
             let successCount = 0;
             let failCount = 0;
+            const zip = new JSZip();
 
             for (let i = 0; i < files.length; i++) {
                 const file = files[i];
@@ -285,18 +290,25 @@
                                     const formatEnum = MagickFormat[titleCaseFormat] || targetExt.toUpperCase();
 
                                     image.write(formatEnum, (data) => {
-                                        const blob = new Blob([data], { type: 'application/octet-stream' });
-                                        const url = URL.createObjectURL(blob);
+                                        let originalName = file.name.split('.').slice(0, -1).join('.');
+                                        if (!originalName) originalName = "image"; // fallback if no extension
+                                        const outFileName = `${originalName}.${targetExt}`;
 
-                                        const originalName = file.name.split('.').slice(0, -1).join('.');
-                                        const dlLink = document.createElement('a');
-                                        dlLink.href = url;
-                                        dlLink.download = `${originalName}.${targetExt}`;
-                                        dlLink.textContent = `⬇️ Download ${originalName}.${targetExt}`;
-                                        dlLink.style.fontWeight = 'bold';
-                                        dlLink.style.color = '#10b981';
-
-                                        downloadsContainer.appendChild(dlLink);
+                                        if (isBatch) {
+                                            // Add to zip
+                                            zip.file(outFileName, data);
+                                        } else {
+                                            // Single file, provide direct link
+                                            const blob = new Blob([data], { type: 'application/octet-stream' });
+                                            const url = URL.createObjectURL(blob);
+                                            const dlLink = document.createElement('a');
+                                            dlLink.href = url;
+                                            dlLink.download = outFileName;
+                                            dlLink.textContent = `⬇️ Download ${outFileName}`;
+                                            dlLink.style.fontWeight = 'bold';
+                                            dlLink.style.color = '#10b981';
+                                            downloadsContainer.appendChild(dlLink);
+                                        }
                                         successCount++;
                                     });
                                 });
@@ -313,7 +325,26 @@
                 }
             }
 
-            statusDiv.textContent = `Batch complete! Successfully converted ${successCount} files. Failed: ${failCount}.`;
+            if (isBatch && successCount > 0) {
+                statusDiv.textContent = `Compressing ${successCount} files into ZIP...`;
+
+                try {
+                    const content = await zip.generateAsync({ type: "blob" });
+                    const url = URL.createObjectURL(content);
+                    const dlLink = document.createElement('a');
+                    dlLink.href = url;
+                    dlLink.download = `converted_images.zip`;
+                    dlLink.textContent = `📦 Download All as ZIP (${successCount} files)`;
+                    dlLink.style.fontWeight = 'bold';
+                    dlLink.style.color = '#10b981';
+                    downloadsContainer.appendChild(dlLink);
+                } catch (err) {
+                    console.error("ZIP Generation Failed:", err);
+                    failCount += successCount; // Consider it a failure if we can't zip
+                }
+            }
+
+            statusDiv.textContent = `Job complete! Successfully processed ${successCount} files. Failed: ${failCount}.`;
             convertBtn.disabled = false;
         });
 
