@@ -21,6 +21,57 @@
         button:disabled { background-color: #93c5fd; cursor: not-allowed; }
         #status { margin-top: 1rem; font-weight: 600; color: #4b5563; }
         #download-link { display: none; margin-top: 1rem; font-weight: bold; color: #10b981; }
+
+        #preview-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        .thumbnail-wrapper {
+            position: relative;
+            width: 100px;
+            height: 100px;
+            border: 1px solid #d1d5db;
+            border-radius: 4px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #f3f4f6;
+        }
+        .thumbnail-img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: cover;
+        }
+        .thumbnail-name {
+            font-size: 0.65rem;
+            text-align: center;
+            padding: 0.25rem;
+            word-break: break-all;
+        }
+        .remove-btn {
+            position: absolute;
+            top: 2px;
+            right: 2px;
+            background-color: rgba(239, 68, 68, 0.9);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            font-size: 12px;
+            line-height: 1;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+        }
+        .remove-btn:hover {
+            background-color: rgb(220, 38, 38);
+        }
     </style>
     <!-- Load ESM from esm.sh to automatically handle CJS conversion -->
     <script type="importmap">
@@ -51,6 +102,8 @@
             <input type="file" id="fileInput" accept="*/*" multiple>
         </div>
 
+        <div id="preview-container"></div>
+
         <div class="form-group">
             <label for="targetFormat">Target Format</label>
             <select id="targetFormat">
@@ -72,21 +125,28 @@
         const convertBtn = document.getElementById('convertBtn');
         const statusDiv = document.getElementById('status');
         const downloadsContainer = document.getElementById('downloads-container');
+        const previewContainer = document.getElementById('preview-container');
 
         let isEngineReady = false;
+        let selectedFiles = []; // Maintain our own list of files
 
-        // 1. Fetch our comprehensive JSON database to populate dropdown
+        // 1. Fetch our comprehensive JSON database to populate dropdown and input filter
         async function loadFormats() {
             try {
-                // Fetch relative to the current directory (since it's inside docs/ now)
                 const response = await fetch('format_database.json');
                 if (!response.ok) throw new Error("Network response was not ok");
                 const db = await response.json();
 
                 targetFormatSelect.innerHTML = '';
 
-                // Get unique writable formats
+                // Get unique formats
                 const validOutputs = [...new Set(db.filter(f => f.can_write).map(f => f.extension.toLowerCase()))].sort();
+                const validInputs = [...new Set(db.filter(f => f.can_read).map(f => `.${f.extension.toLowerCase()}`))];
+
+                // Restrict input file picker
+                if (validInputs.length > 0) {
+                    fileInput.accept = validInputs.join(',');
+                }
 
                 validOutputs.forEach(ext => {
                     const option = document.createElement('option');
@@ -104,7 +164,67 @@
                     <option value="webp">WEBP</option>
                     <option value="pdf">PDF</option>
                 `;
+                fileInput.accept = ".png,.jpg,.jpeg,.webp,.pdf";
             }
+        }
+
+        // Handle file selection
+        fileInput.addEventListener('change', (e) => {
+            if (e.target.files.length > 0) {
+                // Add new files to our array
+                selectedFiles = selectedFiles.concat(Array.from(e.target.files));
+                renderPreviews();
+            }
+            // Clear input so selecting the same file again triggers change event
+            fileInput.value = '';
+        });
+
+        // Render thumbnails
+        function renderPreviews() {
+            previewContainer.innerHTML = '';
+
+            selectedFiles.forEach((file, index) => {
+                const wrapper = document.createElement('div');
+                wrapper.className = 'thumbnail-wrapper';
+                wrapper.title = file.name;
+
+                // Create remove button
+                const removeBtn = document.createElement('button');
+                removeBtn.className = 'remove-btn';
+                removeBtn.innerHTML = '&times;';
+                removeBtn.onclick = () => {
+                    selectedFiles.splice(index, 1);
+                    renderPreviews();
+                };
+
+                // Create image preview
+                const img = document.createElement('img');
+                img.className = 'thumbnail-img';
+
+                // If it's a standard web image, browsers can render it natively
+                if (file.type.startsWith('image/') && !file.name.toLowerCase().endsWith('.heic')) {
+                    img.src = URL.createObjectURL(file);
+                    img.onload = () => URL.revokeObjectURL(img.src); // Free memory
+                } else {
+                    // Fallback for RAW/HEIC that browsers can't render natively
+                    img.src = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><rect width="100" height="100" fill="%23ddd"/><text x="50" y="50" font-family="sans-serif" font-size="12" text-anchor="middle" dominant-baseline="middle" fill="%23666">RAW/Data</text></svg>';
+                }
+
+                wrapper.appendChild(img);
+                wrapper.appendChild(removeBtn);
+
+                // Overlay the name at the bottom
+                const nameLabel = document.createElement('div');
+                nameLabel.className = 'thumbnail-name';
+                nameLabel.style.position = 'absolute';
+                nameLabel.style.bottom = '0';
+                nameLabel.style.width = '100%';
+                nameLabel.style.background = 'rgba(255,255,255,0.8)';
+                nameLabel.textContent = file.name.length > 12 ? file.name.substring(0, 10) + '...' : file.name;
+
+                wrapper.appendChild(nameLabel);
+                previewContainer.appendChild(wrapper);
+            });
         }
 
         // 2. Initialize the WebAssembly Engine
@@ -129,12 +249,12 @@
 
         // 3. Conversion Logic
         convertBtn.addEventListener('click', async () => {
-            if (!fileInput.files.length) {
+            if (selectedFiles.length === 0) {
                 alert("Please select files first.");
                 return;
             }
 
-            const files = Array.from(fileInput.files);
+            const files = [...selectedFiles];
             const targetExt = targetFormatSelect.value;
 
             convertBtn.disabled = true;
