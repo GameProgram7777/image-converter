@@ -6,7 +6,7 @@ if ! command -v gh &> /dev/null; then
     echo "GitHub CLI (gh) is not installed. Please install it first: https://cli.github.com/"
 else
     echo "Setting repository description..."
-    gh repo edit --description "A powerful, universal desktop application for converting between 50+ image and metadata formats (including RAW, HDR, and Web formats)."
+    gh repo edit --description "A powerful, universal in-browser web application for converting between 50+ image and metadata formats (including RAW, HDR, and EXIF)."
 
     echo "Setting repository topic tags..."
     gh repo edit --add-topic "python,tkinter,imagemagick,image-converter,batch-processing,exif,heic,raw-converter"
