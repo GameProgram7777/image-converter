@@ -296,7 +296,9 @@
 
                                         if (isBatch) {
                                             // Add to zip
-                                            zip.file(outFileName, data);
+                                            // CRITICAL: Must clone the Uint8Array because 'data' is a view into
+                                            // WebAssembly memory which will be overwritten by the next image processing.
+                                            zip.file(outFileName, new Uint8Array(data));
                                         } else {
                                             // Single file, provide direct link
                                             const blob = new Blob([data], { type: 'application/octet-stream' });
