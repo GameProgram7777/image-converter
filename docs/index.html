@@ -125,6 +125,12 @@
             </select>
         </div>
 
+        <div class="form-group">
+            <label for="customFilename">Custom Output Name (Optional)</label>
+            <input type="text" id="customFilename" placeholder="e.g. my_images" style="width: 100%; padding: 0.5rem; border: 1px solid #d1d5db; border-radius: 4px; max-width: 300px;">
+            <p style="font-size: 0.8rem; color: #6b7280; margin-top: 0.25rem;">Sets the downloaded file name (single) or ZIP name (batch).</p>
+        </div>
+
         <button id="convertBtn" disabled>Initializing Engine...</button>
 
         <div id="status"></div>
@@ -141,6 +147,7 @@
         const downloadsContainer = document.getElementById('downloads-container');
         const previewContainer = document.getElementById('preview-container');
         const fileStatusText = document.getElementById('fileStatusText');
+        const customFilenameInput = document.getElementById('customFilename');
 
         let isEngineReady = false;
         let selectedFiles = []; // Maintain our own list of files
@@ -280,6 +287,12 @@
             const files = [...selectedFiles];
             const targetExt = targetFormatSelect.value;
             const isBatch = files.length > 1;
+            let customName = customFilenameInput.value.trim();
+
+            // Remove any trailing extensions the user might have accidentally typed
+            if (customName && customName.includes('.')) {
+                customName = customName.split('.').slice(0, -1).join('.');
+            }
 
             convertBtn.disabled = true;
             downloadsContainer.innerHTML = ''; // clear previous links
@@ -312,7 +325,12 @@
                                     image.write(formatEnum, (data) => {
                                         let originalName = file.name.split('.').slice(0, -1).join('.');
                                         if (!originalName) originalName = "image"; // fallback if no extension
-                                        const outFileName = `${originalName}.${targetExt}`;
+
+                                        let baseName = originalName;
+                                        if (!isBatch && customName) {
+                                            baseName = customName; // Use custom name for single files
+                                        }
+                                        const outFileName = `${baseName}.${targetExt}`;
 
                                         if (isBatch) {
                                             // Add to zip
@@ -351,11 +369,12 @@
                 statusDiv.textContent = `Compressing ${successCount} files into ZIP...`;
 
                 try {
+                    const zipFileName = customName ? `${customName}.zip` : 'converted_images.zip';
                     const content = await zip.generateAsync({ type: "blob" });
                     const url = URL.createObjectURL(content);
                     const dlLink = document.createElement('a');
                     dlLink.href = url;
-                    dlLink.download = `converted_images.zip`;
+                    dlLink.download = zipFileName;
                     dlLink.textContent = `📦 Download All as ZIP (${successCount} files)`;
                     dlLink.style.fontWeight = 'bold';
                     dlLink.style.color = '#10b981';
